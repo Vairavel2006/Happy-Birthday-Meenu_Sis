@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scary Surprise!</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+            flex-direction: column; /* Stack gif and video vertically */
+        }
+
+        .scary-gif {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            z-index: 10;
+        }
+
+        .birthday-video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none; /* Initially hidden */
+        }
+
+        /* Optional: Style for fade-in transition */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scary GIF -->
+    <div class="scary-gif" id="scaryGif">
+        <img src="scary.gif" alt="Scary Gif"> <!-- Replace with your scary gif file -->
+    </div>
+
+    <!-- Birthday Video (hidden initially) -->
+    <div class="birthday-video" id="birthdayVideo">
+        <video id="video" width="100%" height="100%" controls>
+            <source src="video.mp4" type="video/mp4"> <!-- Replace with your video file -->
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        const scaryGif = document.getElementById("scaryGif");
+        const birthdayVideo = document.getElementById("birthdayVideo");
+        const video = document.getElementById("video");
+
+        // Function to show the video after the GIF has played
+        function showBirthdayVideo() {
+            scaryGif.style.display = "none"; // Hide GIF
+            birthdayVideo.style.display = "block"; // Show birthday video
+            birthdayVideo.classList.add("fade-in"); // Optional: Add fade-in effect
+            video.play(); // Explicitly start the video playback
+        }
+
+        // Set a timeout to show the birthday video after the GIF completes
+        setTimeout(function() {
+            showBirthdayVideo();
+        }, 4000); // Delay to allow GIF to play (adjust as needed for full GIF duration)
+
+    </script>
+</body>
+</html>
