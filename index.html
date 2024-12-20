@@ -7,8 +7,8 @@
     <style>
         body {
             background-image: url('Entry.jpg'); /* Background image */
-            background-size: cover; /* Cover the entire screen */
-            background-position: center; /* Center the image */
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,7 +20,7 @@
         }
 
         .login-container {
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 10px;
             text-align: center;
@@ -54,28 +54,63 @@
             background-color: #ff3385;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .login-container {
-                width: 80%;
-                padding: 15px;
-            }
+        .heart-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
 
-            .login-container input, .login-container button {
-                font-size: 14px;
-                padding: 8px;
+        .heart {
+            width: 100px;
+            height: 100px;
+            background-color: #ff6699;
+            position: relative;
+            transform: rotate(45deg);
+            animation: beat 1s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background-color: #ff6699;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: -50px;
+            top: 0;
+        }
+
+        @keyframes beat {
+            0%, 100% {
+                transform: scale(1) rotate(45deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(45deg);
             }
         }
 
-        @media (max-width: 480px) {
-            .login-container {
-                width: 90%;
-                padding: 10px;
+        @keyframes burst {
+            0% {
+                transform: scale(1) rotate(45deg);
+                opacity: 1;
             }
-
-            .login-container input, .login-container button {
-                font-size: 12px;
-                padding: 6px;
+            100% {
+                transform: scale(3) rotate(45deg);
+                opacity: 0;
             }
         }
     </style>
@@ -84,20 +119,34 @@
 
     <div class="login-container">
         <h2>Enter Password</h2>
-        <input type="password" id="password" placeholder="Enter password" />
+        <input type="text" id="password" placeholder="Enter password" />
         <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <div class="heart-container" onclick="burstHeart()">
+        <div class="heart"></div>
     </div>
 
     <script>
         function checkPassword() {
-            var password = document.getElementById("password").value;
-            var correctPassword = "Vairavel_s-1st-sis"; // Correct password
+            const password = document.getElementById("password").value;
+            const correctPassword = "Vairavel_s-1st-sis";
 
             if (password === correctPassword) {
-                window.location.href = "front.html"; // Redirect to index.html if correct
+                document.querySelector('.login-container').style.display = 'none';
+                document.querySelector('.heart-container').style.display = 'flex';
             } else {
-                alert("Incorrect password, try again."); // Alert if password is incorrect
+                alert("Incorrect password, try again.");
             }
+        }
+
+        function burstHeart() {
+            const heart = document.querySelector('.heart');
+            heart.style.animation = "burst 1s forwards";
+
+            setTimeout(() => {
+                window.location.href = "front.html";
+            }, 1000);
         }
     </script>
 
