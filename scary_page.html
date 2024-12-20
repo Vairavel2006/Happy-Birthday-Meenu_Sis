@@ -30,9 +30,62 @@
             display: none; /* Initially hidden */
         }
 
-        /* Optional: Style for fade-in transition */
-        .fade-in {
+        .heart-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .heart {
+            width: 150px;
+            height: 150px;
+            background-color: #ff6699;
+            position: relative;
+            transform: rotate(45deg);
+            animation: beat 1s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            width: 150px;
+            height: 150px;
+            background-color: #ff6699;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -75px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: -75px;
+            top: 0;
+        }
+
+        .comedy-photo {
+            display: none; /* Initially hidden */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Animations */
+        @keyframes beat {
+            0%, 100% {
+                transform: scale(1) rotate(45deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(45deg);
+            }
         }
 
         @keyframes fadeIn {
@@ -52,7 +105,7 @@
         <img src="scary.gif" alt="Scary Gif"> <!-- Replace with your scary gif file -->
     </div>
 
-    <!-- Birthday Video (hidden initially) -->
+    <!-- Birthday Video -->
     <div class="birthday-video" id="birthdayVideo">
         <video id="video" width="100%" height="100%" controls>
             <source src="video.mp4" type="video/mp4"> <!-- Replace with your video file -->
@@ -60,24 +113,39 @@
         </video>
     </div>
 
+    <!-- Heart Animation -->
+    <div class="heart-container" id="heartContainer" onclick="showComedyPhoto()">
+        <div class="heart"></div>
+    </div>
+
+    <!-- Comedy Photo -->
+    <img src="comedy.jpg" alt="Comedy" class="comedy-photo" id="comedyPhoto">
+
     <script>
         const scaryGif = document.getElementById("scaryGif");
         const birthdayVideo = document.getElementById("birthdayVideo");
         const video = document.getElementById("video");
+        const heartContainer = document.getElementById("heartContainer");
+        const comedyPhoto = document.getElementById("comedyPhoto");
 
-        // Function to show the video after the GIF has played
-        function showBirthdayVideo() {
+        // Show the birthday video after the GIF plays
+        setTimeout(() => {
             scaryGif.style.display = "none"; // Hide GIF
-            birthdayVideo.style.display = "block"; // Show birthday video
-            birthdayVideo.classList.add("fade-in"); // Optional: Add fade-in effect
-            video.play(); // Explicitly start the video playback
+            birthdayVideo.style.display = "block"; // Show video
+            video.play(); // Start video playback
+        }, 4000); // Adjust the delay based on GIF duration
+
+        // Show the heart animation after the video ends
+        video.addEventListener("ended", () => {
+            birthdayVideo.style.display = "none"; // Hide video
+            heartContainer.style.display = "flex"; // Show heart
+        });
+
+        // Show the comedy photo when the heart is clicked
+        function showComedyPhoto() {
+            heartContainer.style.display = "none"; // Hide heart
+            comedyPhoto.style.display = "block"; // Show comedy photo
         }
-
-        // Set a timeout to show the birthday video after the GIF completes
-        setTimeout(function() {
-            showBirthdayVideo();
-        }, 4000); // Delay to allow GIF to play (adjust as needed for full GIF duration)
-
     </script>
 </body>
 </html>
